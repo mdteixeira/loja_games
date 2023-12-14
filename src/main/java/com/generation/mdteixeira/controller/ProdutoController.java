@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -56,7 +54,13 @@ public class ProdutoController {
 	public ResponseEntity<List<Produto>> getByNome(@PathVariable String nome) {
 		return ResponseEntity.ok(produtoRepository.findAllByNomeContainingIgnoreCase(nome));
 	}
-
+	
+	// filtrar por preço (maior que)
+	@GetMapping("/maior/{preco}")
+	public ResponseEntity<List<Produto>> getMaiorQue(@PathVariable float preco) {
+		return ResponseEntity.ok(produtoRepository.findAllByPrecoGreaterThan(preco));
+	}
+	
 	// post --> envia um post para o server a partir do body
 		@PostMapping
 		public ResponseEntity<Produto> post(@Valid @RequestBody Produto produto) {
